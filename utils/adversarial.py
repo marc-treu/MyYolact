@@ -2,7 +2,7 @@ import torch
 import random
 
 
-def adversarial_noise(x, model, crit, target_y=None, nb_iterations=50, threshold=0.1, learning_rate=1):
+def adversarial_noise(x, model, crit, target_y=None, nb_iterations=50, threshold=0.1, learning_rate=1, len_dataset=80):
     """
 
     Args:
@@ -33,9 +33,9 @@ def adversarial_noise(x, model, crit, target_y=None, nb_iterations=50, threshold
 
         # Generate the targets
         if target_y is None:  # untarget
-            target = random.randint(0, len(cfg.dataset.class_names) - 1)
+            target = random.randint(0, len_dataset - 1)
             while target in attacking_set:
-                target = random.randint(0, len(cfg.dataset.class_names) - 1)
+                target = random.randint(0, len_dataset - 1)
         else:  # target
             target = target_y
 
