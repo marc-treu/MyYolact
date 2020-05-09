@@ -1,9 +1,6 @@
 import torch
 import random
 
-from ../yolact import postprocess, prep_display
-
-
 def adversarial_noise(x, model, crit, target_y=None, nb_iterations=50, threshold=0.1, learning_rate=1, nb_class=80):
     """
     Args:
@@ -76,13 +73,3 @@ def _chose_random_target(attacking_set, nb_class):
     while target in attacking_set:
         target = random.randint(0, nb_class - 1)
     return target
-
-
-def print_ad(adver, model, threshold=0.1):
-    
-    model.eval()
-    preds = model(adver)
-    classes, scores, boxes, masks = postprocess(preds, 550, 550, crop_masks=True, score_threshold=threshold)
-    img_numpy, class_score = prep_display(classes, scores, boxes, masks, X[0][0], 550, 550, score_threshold=threshold)
-
-    return img_numpy
