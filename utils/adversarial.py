@@ -72,3 +72,12 @@ def adversarial_noise(x, model, crit, target_y=None, nb_iterations=50, threshold
         it += 1
 
     return x_fooling
+
+def print_ad(adver, model, score_threshold=0.1):
+    
+    model.eval()
+    preds = model(adver)
+    classes, scores, boxes, masks = postprocess(preds, 550, 550, crop_masks=True, score_threshold=score_threshold)
+    img_numpy, class_score = prep_display(classes, scores, boxes, masks, X[0][0], 550, 550, score_threshold=score_threshold)
+
+    return img_numpy
