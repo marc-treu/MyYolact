@@ -177,6 +177,14 @@ def display_masks(image, h, w, masks, nb_masks, mask_alpha=0.45):
 
     return img_result
 
+def print_ad(adver, model, threshold=0.1):
+    
+    model.eval()
+    preds = model(adver)
+    classes, scores, boxes, masks = postprocess(preds, 550, 550, crop_masks=True, score_threshold=threshold)
+    img_numpy, class_score = prep_display(classes, scores, boxes, masks, X[0][0], 550, 550, score_threshold=threshold)
+
+    return img_numpy
 
 def prep_display(classes, scores, boxes, masks, img_original, h, w, undo_transform=True, mask_alpha=0.45, score_threshold=0.8, fps_str=''):
     """
