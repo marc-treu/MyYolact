@@ -1,6 +1,8 @@
 import torch
 import random
 
+from ../yolact import postprocess, prep_display
+
 
 def adversarial_noise(x, model, crit, target_y=None, nb_iterations=50, threshold=0.1, learning_rate=1, nb_class=80):
     """
