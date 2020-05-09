@@ -4,16 +4,13 @@ import random
 
 def adversarial_noise(x, model, crit, target_y=None, nb_iterations=50, threshold=0.1, learning_rate=1, len_dataset=80):
     """
-
     Args:
         X: A element from the dataloader, e.g. [images, (targets, masks, num_crowds)]
         model: The model we want to fool (here YOLACT)
         crit: The criterion for evaluate the model
         target_y: if target_y is None then the attack is untarget
         nb_iterations: maximal number of iteration
-
     Returns:
-
     """
     images, (targets, masks, num_crowds) = x
 
@@ -64,8 +61,13 @@ def adversarial_noise(x, model, crit, target_y=None, nb_iterations=50, threshold
         indice = temp['score'] > threshold
         temp_set = set(temp['class'][el].item() for el in range(len(temp['class'])) if indice[el])
 
-        if temp_set - attacking_set == temp_set:
-            break
+        if target_y is None:
+            if temp_set - attacking_set == temp_set:
+                break
+        else:
+            if len(temp_set) == 1 and target_y in temp_set:
+                break
+        
 
         it += 1
 
