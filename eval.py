@@ -182,7 +182,7 @@ def print_ad(adver, model, threshold=0.1):
     model.eval()
     preds = model(adver)
     classes, scores, boxes, masks = postprocess(preds, 550, 550, crop_masks=True, score_threshold=threshold)
-    img_numpy, class_score = prep_display(classes, scores, boxes, masks, X[0][0], 550, 550, score_threshold=threshold)
+    img_numpy, class_score = prep_display(classes, scores, boxes, masks, adver[0], 550, 550, score_threshold=threshold)
 
     return img_numpy
 
