@@ -89,8 +89,6 @@ def parse_args(argv=None):
                         help='Equivalent to running display mode but without displaying an image.')
     parser.add_argument('--no_sort', default=False, dest='no_sort', action='store_true',
                         help='Do not sort images by hashed image ID.')
-    parser.add_argument('--seed', default=None, type=int,
-                        help='The seed to pass into random.seed. Note: this is only really for the shuffle and does not (I think) affect cuda stuff.')
     parser.add_argument('--mask_proto_debug', default=False, dest='mask_proto_debug', action='store_true',
                         help='Outputs stuff for scripts/compute_mask.py.')
     parser.add_argument('--no_crop', default=False, dest='crop', action='store_false',
@@ -123,9 +121,6 @@ def parse_args(argv=None):
 
     if args.output_web_json:
         args.output_coco_json = True
-    
-    if args.seed is not None:
-        random.seed(args.seed)
     
     return args
 
