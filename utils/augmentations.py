@@ -595,8 +595,17 @@ class BackboneTransform(object):
 
         return img.astype(np.float32), masks, boxes, labels
 
+class NoneTransform(object):
+    """ Apply the resizing, but not the transformation. """
 
+    def __init__(self, mean=MEANS, std=STD):
+        self.augment = Compose([
+            ConvertFromInts(),
+            Resize(resize_gt=False)
+        ])
 
+    def __call__(self, img, masks=None, boxes=None, labels=None):
+        return self.augment(img.round() / 255, masks, boxes, labels)
 
 class BaseTransform(object):
     """ Transorm to be used when evaluating. """
