@@ -1,6 +1,6 @@
 from data import COCODetection, get_label_map, MEANS, COLORS
 from yolact import Yolact
-from utils.augmentations import BaseTransform, FastBaseTransform, Resize
+from utils.augmentations import BaseTransform, NoneTransform, FastBaseTransform, Resize
 from utils.functions import MovingAverage, ProgressBar
 from layers.box_utils import jaccard, center_size, mask_iou
 from utils import timer
@@ -89,8 +89,6 @@ def parse_args(argv=None):
                         help='Equivalent to running display mode but without displaying an image.')
     parser.add_argument('--no_sort', default=False, dest='no_sort', action='store_true',
                         help='Do not sort images by hashed image ID.')
-    parser.add_argument('--seed', default=None, type=int,
-                        help='The seed to pass into random.seed. Note: this is only really for the shuffle and does not (I think) affect cuda stuff.')
     parser.add_argument('--mask_proto_debug', default=False, dest='mask_proto_debug', action='store_true',
                         help='Outputs stuff for scripts/compute_mask.py.')
     parser.add_argument('--no_crop', default=False, dest='crop', action='store_false',
@@ -123,9 +121,6 @@ def parse_args(argv=None):
 
     if args.output_web_json:
         args.output_coco_json = True
-    
-    if args.seed is not None:
-        random.seed(args.seed)
     
     return args
 
@@ -177,6 +172,14 @@ def display_masks(image, h, w, masks, nb_masks, mask_alpha=0.45):
 
     return img_result
 
+def print_ad(adver, model, threshold=0.1):
+    
+    model.eval()
+    preds = model(adver)
+    classes, scores, boxes, masks = postprocess(preds, 550, 550, crop_masks=True, score_threshold=threshold)
+    img_numpy, class_score = prep_display(classes, scores, boxes, masks, adver[0], 550, 550, score_threshold=threshold)
+
+    return img_numpy, class_score
 
 def prep_display(classes, scores, boxes, masks, img_original, h, w, undo_transform=True, mask_alpha=0.45, score_threshold=0.8, fps_str=''):
     """

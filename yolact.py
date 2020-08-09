@@ -635,8 +635,8 @@ class Yolact(nn.Module):
 
         if proto_out is not None:
             pred_outs['proto'] = proto_out
-
-        if self.training:
+            
+        if cfg.pred_outs is True:  # adding this for using the the network in eval mode and still have acces to the pred_outs
             # For the extra loss functions
             if cfg.use_class_existence_loss:
                 pred_outs['classes'] = self.class_existence_fc(outs[-1].mean(dim=(2, 3)))
