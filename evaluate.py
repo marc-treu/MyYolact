@@ -5,7 +5,7 @@ from layers.output_utils import postprocess
 from eval import Detections
 
 
-def my_prep_metrics(dets, h, w, image_id, detections=None, args):
+def my_prep_metrics(dets, h, w, image_id, detections, args):
     """
     """
 
@@ -63,9 +63,6 @@ def generate_coco_file(dataset_indices: list, path, dataset, net, args):
         my_prep_metrics(preds, h, w, dataset.ids[image_idx], detections, args)
 
     detections.dump()
-
-
-
 
 
 _MEAN_imagenet = [0.485, 0.456, 0.406]
