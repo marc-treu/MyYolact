@@ -1,7 +1,7 @@
 from torchvision import transforms
 from PIL import Image
 
-from yolact.layers.output_utils import postprocess
+from layers.output_utils import postprocess
 from eval import Detections
 
 
