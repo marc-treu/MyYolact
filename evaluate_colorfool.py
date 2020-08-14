@@ -1,8 +1,8 @@
 from torchvision import transforms
 from PIL import Image
 
-from layers.output_utils import postprocess
-from eval import Detections
+from .layers.output_utils import postprocess
+from .eval import Detections
 
 
 def my_prep_metrics(dets, h, w, image_id, detections):
