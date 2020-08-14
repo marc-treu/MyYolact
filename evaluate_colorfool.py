@@ -1,4 +1,5 @@
 from torchvision import transforms
+from torch.nn.functional import interpolate
 from PIL import Image
 
 from .layers.output_utils import postprocess
@@ -53,6 +54,7 @@ def generate_coco_file(dataset_indices: list, path, dataset, net):
 
         img_adv = Image.open(f'{path}/{dataset.ids[image_idx]:012d}.png')
         img_adv = transforms.ToTensor()(img_adv).cuda()
+        img_adv = interpolate(img_adv.unsqueeze(0), (550,550)).squeeze(0)
 
         img_adv = _normalize_imagenet(img_adv)
 
