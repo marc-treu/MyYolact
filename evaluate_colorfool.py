@@ -37,7 +37,7 @@ def my_prep_metrics(dets, h, w, image_id, detections):
     return
 
 
-def generate_coco_file(dataset_indices: list, path, dataset, net, args):
+def generate_coco_file(dataset_indices: list, path, dataset, net):
     """This function generated the bbox and the mask files that follow the rules
     of COCOapi.
 
@@ -45,8 +45,6 @@ def generate_coco_file(dataset_indices: list, path, dataset, net, args):
     args.mask_det_file are well define, otherwise this function will
 
     """
-    args.bbox_det_file = f'{path}/bbox_detections.json'
-    args.mask_det_file = f'{path}/mask_detections.json'
 
     detections = Detections()
 
