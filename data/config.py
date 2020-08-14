@@ -662,6 +662,7 @@ yolact_base_config = coco_base_config.copy({
 
     # Image Size
     'max_size': 550,
+    'pred_outs': False,
     
     # Training params
     'lr_steps': (280000, 600000, 700000, 750000),
